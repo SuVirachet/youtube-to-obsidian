@@ -89,3 +89,9 @@ python <skill>/scripts/format_transcript.py "$DOWNLOADS_DIR/yt-cap.json3" \
 → เขียน `_archive/conversations-raw/youtube/<title> — transcript.md` (Gemma format + frontmatter) เสร็จในคำสั่งเดียว · เนื้อหาไม่ผ่าน context
 
 > ถ้าคลิปไม่มี chapter ในคำบรรยาย → ส่ง `--chapters '[]'` (ได้แค่ `M:SS · ` ย่อหน้า ไม่มี ### header)
+
+---
+
+## ⚠️ Gotchas ตอนสั่งวิดีโอเล่น (ใช้ทั้งตอนเปิด CC และตอน capture ภาพ)
+- **วิดีโอ stall `buffered: 0` (autoplay ถูกบล็อก)** — Chrome บล็อก autoplay ที่มีเสียง → `playVideo()` ไม่ขยับ buffer · **แก้: mute ก่อนเล่น** `const v=document.querySelector('video'); v.muted=true; v.play();` → buffer เดินทันที (มี user gesture จาก `c`/click อยู่แล้วก็ช่วย)
+- **"เฟรมค้าง" ตอน capture ภาพใน background tab** — `drawImage(video)` คืนเฟรมเก่าทั้งที่ `currentTime` เดิน (tab โดน throttle, `requestVideoFrameCallback` ไม่ยิง) · **แก้: ใน `browser_batch` เดียว ใส่ `computer screenshot` ก่อน `drawImage` ทันที** (screenshot บังคับ paint เฟรมสด) · รายละเอียดเต็มใน `references/distill-and-timestamps.md` ส่วน 🖼️ ภาพประกอบ

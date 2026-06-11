@@ -106,13 +106,16 @@ for label, needle in anchors:
    const a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download='kb-x.png';
    document.body.appendChild(a); a.click();
    ```
+   **⚠️⚠️ กับดักร้ายแรง: "เฟรมค้าง" ใน background tab (เสียเวลานานมากถ้าไม่รู้)** — ถ้า YouTube tab ไม่ใช่ tab ที่ active/มองเห็นอยู่ เบราว์เซอร์จะ **throttle การ present เฟรม**: `video.currentTime` เดินไปเรื่อยๆ แต่ `drawImage(video)` คืน **เฟรมเก่าค้าง** (decode ล่าสุดก่อน throttle) → ได้ภาพผิดหัวข้อ! อันตรายเพราะ **`computer screenshot` บังคับ paint เลยเห็นเฟรมสด** ทำให้เข้าใจผิดว่า capture ถูก แต่ไฟล์ที่ download เป็นเฟรมเก่า · diagnostic: `video.requestVideoFrameCallback` **ไม่ยิงเลย** = ยืนยันโดน throttle
+   - **วิธีแก้ที่ใช้ได้จริง (proven)**: ใน `browser_batch` เดียว เรียง action ให้ **`computer screenshot` มาก่อน `drawImage` ทันที** — screenshot บังคับ paint เฟรมสด แล้ว drawImage ตัวถัดไปจะได้เฟรมนั้น (อย่า `pause` ก่อน draw — ปล่อยเล่นค้างไว้): `[seek+play] → [wait 5s] → [computer screenshot] → [drawImage+download]`
+   - ทุกครั้งหลังย้ายไฟล์ **Read ภาพกลับมาดูเสมอ** ว่าตรงหัวข้อจริง (เฟรมค้างจะดูเนียนจนกว่าจะเปิดดู)
 3. ย้ายไฟล์ `Downloads/*.png` → `_attachments/` (ตั้งชื่อสื่อความหมาย เช่น `ltd-kb-master-index.png`)
 4. **embed ในโน้ต** ตรงหัวข้อที่เกี่ยว + caption + timestamp link:
    ```markdown
    ![[ltd-kb-master-index.png]]
    > *คำอธิบายภาพ [▸ M:SS](url&t=Ns)*
    ```
-> **คลิป visual-heavy (เช่น สาธิตระบบ/Obsidian/dashboard) capture ให้ใจป้ำ — เล็ง ~1 ภาพต่อหัวข้อหลัก (8+ ภาพได้)** · เลือกภาพที่มีคุณค่า (diagram, dashboard, ไฟล์จริง, terminal ที่ agent ทำงาน)
+> **⚠️ จำนวนภาพ — อย่าขี้เหนียว (user เคย reject "3 ภาพน้อยไป" สำหรับคลิป 34 บท)**: เล็ง **1 ภาพต่อทุกหัวข้อ/feature ที่มีการสาธิตบนจอจริง** ไม่ใช่แค่ 2-3 จุดเด่น · คลิป tutorial feature-rich (Obsidian/สาธิตระบบ) ปกติ **8-12 ภาพ** เป็นเรื่องธรรมดา — ไล่ตามสารบัญ: แต่ละ feature ที่ผู้พูดโชว์หน้าจอ (link, theme, shortcuts, media, graph, canvas, ทำงานกับ AI, ...) ควรมีภาพคู่กับหัวข้อนั้น · เลือกเฟรมที่มีคุณค่า (diagram, dashboard, ไฟล์จริง, ผลลัพธ์ที่ AI ทำ) ข้ามเฉพาะหัวข้อที่เป็นการพูดล้วนไม่มีภาพ
 
 ### ⚠️⚠️ กฎเหล็กของภาพ: ต้อง "วิเคราะห์เนื้อหา" + capture เฟรมที่แสดงแนวคิด **ครบทั้งหมด** (ไม่ใช่ส่วนเสี้ยว)
 > **ความผิดพลาดที่เจอจริง (user reject): capture แบบกลไก** — seek ไป timestamp แล้วกดเฟรมเลย โดยไม่ดูว่าเฟรมนั้นแสดงแนวคิด**ครบ**ไหม → ได้ diagram แค่ส่วนเดียว (เช่น flywheel ที่ zoom เข้ามุมเดียว แทนที่จะเป็นวงเต็ม)

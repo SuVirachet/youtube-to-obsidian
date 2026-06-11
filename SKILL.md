@@ -23,7 +23,7 @@ description: >-
 1. **Transcript ดิบ** อยู่ใน `_archive/conversations-raw/youtube/` format Gemma (`## บทต่างๆ` + `## Transcript` + `### chapter` + `M:SS · `)
 2. **โน้ต distill แน่น ~80%+** ของคลิป — named entity ทุกตัว (ทำตาราง roster), ตัวอย่างรูปธรรม, ตัวเลข, why, ข้อเสีย/คำเตือน · ยาว 150-250 บรรทัดปกติ (ดู `references/distill-and-timestamps.md` กฎความแน่น)
 3. **timestamp links คลิกได้** ตามหัวข้อ/จุดสำคัญ (`[▸ M:SS](url&t=Ns)`) — timing จริงจาก transcript
-4. **คลิป visual-heavy → ภาพประกอบ HD** (1920×1080) ~1 ภาพ/หัวข้อหลัก · **วิเคราะห์เนื้อหา + เฟรมต้องแสดง diagram ครบทั้งอัน (ไม่ใช่ส่วนเสี้ยว)** · embed + caption + Read ภาพยืนยัน
+4. **คลิป visual-heavy → ภาพประกอบ HD** (1920×1080) **1 ภาพ/ทุกหัวข้อที่มีการสาธิตบนจอ** (tutorial feature-rich ปกติ 8-12 ภาพ — อย่าขี้เหนียว 2-3 ภาพ) · **วิเคราะห์เนื้อหา + เฟรมต้องแสดง diagram ครบทั้งอัน (ไม่ใช่ส่วนเสี้ยว)** · ⚠️ ระวัง "เฟรมค้าง" ใน background tab (drawImage คืนเฟรมเก่าทั้งที่ screenshot เห็นสด → screenshot บังคับ paint ก่อน draw) · embed + caption + **Read ภาพยืนยันทุกใบ**
 5. **ลิงก์สองทาง** transcript ↔ distill (`clip_source` ↔ `Distilled:`)
 6. **รายงานเป็นเฟส** ให้ user เห็นความคืบหน้า
 
